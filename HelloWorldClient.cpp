@@ -6,10 +6,6 @@
 
 #define LOG_TAG "HelloWorldClient"
 
-#include <sys/types.h>
-#include <unistd.h>
-#include <grp.h>
-
 #include <binder/IPCThreadState.h>
 #include <binder/IServiceManager.h>
 #include <binder/ProcessState.h>
@@ -29,6 +25,11 @@ int main(int argc, char *argv[]) {
 
     android::sp<IHelloWorldService> shw = android::interface_cast<IHelloWorldService>(binder);
     shw->print("Hello, world.");
+
+    char response[128];
+    shw->sayHi("Hi, this is hello-world client", response);
+    LOGI("%s\n", response);
+    printf("%s\n", response);
 
     LOGI("Client stop");
     return 0;

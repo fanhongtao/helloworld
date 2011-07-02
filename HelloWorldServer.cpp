@@ -6,10 +6,6 @@
 
 #define LOG_TAG "HelloWorldServer"
 
-#include <sys/types.h>
-#include <unistd.h>
-#include <grp.h>
-
 #include <binder/IPCThreadState.h>
 #include <binder/IServiceManager.h>
 #include <binder/ProcessState.h>
@@ -20,11 +16,11 @@
 int main(int argc, char *argv[]) {
     LOGI("Hello world service start");
 
-	BnHelloWorldService::instantiate();
-	android::ProcessState::self()->startThreadPool();
-	android::IPCThreadState::self()->joinThreadPool();
+    BnHelloWorldService::instantiate();
+    android::ProcessState::self()->startThreadPool();
+    android::IPCThreadState::self()->joinThreadPool();
 
     LOGI("Hello world service stop");
-	return(0);
+    return 0 ;
 }
 

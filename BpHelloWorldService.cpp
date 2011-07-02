@@ -19,11 +19,19 @@ public:
     BpHelloWorldService(const sp<IBinder>& impl) : BpInterface<IHelloWorldService>(impl) {
     } 
 
-    void print(const char * str) {
+    void print(const char * message) {
         Parcel data, reply;
         data.writeInterfaceToken(IHelloWorldService::getInterfaceDescriptor());
-        data.writeCString(str);
+        data.writeCString(message);
         remote()->transact(PRINT, data, &reply, IBinder::FLAG_ONEWAY);
+    }
+
+    void sayHi(const char * message, char * response) {
+        Parcel data, reply;
+        data.writeInterfaceToken(IHelloWorldService::getInterfaceDescriptor());
+        data.writeCString(message);
+        remote()->transact(SAY_HI, data, &reply, 0);
+        strcpy(response, reply.readCString());
     }
 }; 
 

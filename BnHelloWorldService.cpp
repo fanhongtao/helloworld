@@ -23,13 +23,21 @@ status_t BnHelloWorldService::onTransact(uint32_t code,
             const Parcel &data,
             Parcel *reply,
             uint32_t flags) {
-    LOGE("OnTransact(%u, %u)", code, flags);
+    LOGD("OnTransact(%u, %u)", code, flags);
 
     switch(code) {
         case PRINT: {
             CHECK_INTERFACE(IHelloWorldService, data, reply);
-            const char *str = data.readCString();
-            print(str);
+            const char * message = data.readCString();
+            print(message);
+            return android::NO_ERROR;
+        }
+        case SAY_HI: {
+            CHECK_INTERFACE(IHelloWorldService, data, reply);
+            const char * message = data.readCString();
+            char response[128];
+            sayHi(message, response);
+            reply->writeCString(response);  // write response to client
             return android::NO_ERROR;
         }
         default: {
@@ -39,8 +47,15 @@ status_t BnHelloWorldService::onTransact(uint32_t code,
     return android::NO_ERROR;    
 }
 
-void BnHelloWorldService::print(const char * str) {
-    LOGE("Receive string: %s\n", str);
-    printf("Receive string: %s\n", str);
+void BnHelloWorldService::print(const char * message) {
+    LOGD("Receive string: %s\n", message);
+    printf("Receive string: %s\n", message);
+}
+
+void BnHelloWorldService::sayHi(const char * message, char * response) {
+    LOGD("%s\n", message);
+    printf("%s\n", message);
+
+    strcpy(response, "Hi, I'm hello-world service");
 }
 

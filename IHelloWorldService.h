@@ -13,7 +13,8 @@
 #define SERVICE_NAME "test.helloworld"
 
 enum {
-    PRINT = 1
+    PRINT = 1,
+    SAY_HI  = 2
 };
 
 using namespace android;
@@ -21,7 +22,21 @@ using namespace android;
 class IHelloWorldService : public IInterface {
 public:
     DECLARE_META_INTERFACE(HelloWorldService);
-    virtual void print(const char * str) = 0;
+
+    /**
+     * Client send a string to service.
+     * Service print/log it. no response.
+     * @param[in] str The message send to service.
+     */
+    virtual void print(const char * message) = 0;
+
+    /**
+     * Client send a string to service.
+     * Service print/log it, and send a message back to client.
+     * @param[in]  message  The message send to service.
+     * @param[out] response The response send back to client.
+     */
+    virtual void sayHi(const char * message, char * response) = 0;
 };
 
 class BnHelloWorldService : public BnInterface<IHelloWorldService> {
@@ -32,7 +47,9 @@ public:
             Parcel *reply,
             uint32_t flags);
 
-    void print(const char * str);
+    void print(const char * message);
+
+    void sayHi(const char * message, char * response);
 }; 
 
 #endif  // I_HELLOWORLD_SERVICE_H
