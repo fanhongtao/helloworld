@@ -1,10 +1,10 @@
 LOCAL_PATH := $(call my-dir)
 BASE_SHARED_LIBARIES := libutils liblog libbinder
 
-#----------------- helloworld_service begin
+#----------------- libhelloworld_service begin
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := helloworld_service
+LOCAL_MODULE := libhelloworld_service
 LOCAL_MODULE_PATH := $(TARGET_OUT)/lib
 
 LOCAL_PRELINK_MODULE := false
@@ -14,7 +14,7 @@ LOCAL_SHARED_LIBRARIES = $(BASE_SHARED_LIBARIES)
 LOCAL_SRC_FILES := BnHelloWorldService.cpp  BpHelloWorldService.cpp
 
 include $(BUILD_SHARED_LIBRARY)
-#----------------- helloworld_client end
+#----------------- libhelloworld_service end
 
 
 #----------------- helloworld_client begin
